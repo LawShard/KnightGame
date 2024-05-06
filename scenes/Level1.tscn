@@ -599,14 +599,13 @@ text = "No tiene cara de ser un amigo..."
 autowrap_mode = 2
 
 [node name="Label4" type="Label" parent="Text"]
-offset_left = 1047.0
-offset_top = -26.0
-offset_right = 1162.0
-offset_bottom = -3.0
-theme_override_fonts/font = ExtResource("6_2ouae")
+offset_left = 1040.0
+offset_top = -24.0
+offset_right = 1155.0
+offset_bottom = -1.0
+theme_override_fonts/font = ExtResource("2_f7js5")
 theme_override_font_sizes/font_size = 8
-text = "Claudia
-Te Amooooo <3"
+text = "Bien Hecho"
 autowrap_mode = 2
 
 [node name="Platforms" type="Node" parent="."]
@@ -634,6 +633,6 @@ autoplay = "move"
 [node name="Green_Slime" parent="Enemies" instance=ExtResource("6_5oka4")]
 position = Vector2(696, 147)
 
-[node name="Area2D" parent="." instance=ExtResource("10_n5pt2")]
+[node name="VictoryFlag" parent="." instance=ExtResource("10_n5pt2")]
 position = Vector2(1136, 39)
 collision_mask = 2

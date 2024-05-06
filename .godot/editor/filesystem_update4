@@ -7,3 +7,4 @@ res://scenes/killzone.tscn
 res://scenes/green_slime.tscn
 res://scenes/coin.tscn
 res://scenes/Level2.tscn
+res://scripts/player.gd

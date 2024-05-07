@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/flag.gd" id="1_tmipt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_34wqk"]
-size = Vector2(16, 22)
+size = Vector2(20, 26)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_tmipt")
@@ -13,6 +13,7 @@ script = ExtResource("1_tmipt")
 texture = ExtResource("1_4nowt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_34wqk")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

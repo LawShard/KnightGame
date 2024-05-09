@@ -60,6 +60,7 @@ frame_progress = 0.533631
 [node name="Killzone" parent="." instance=ExtResource("2_cbjxv")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+visibility_layer = 4
 position = Vector2(0, 6.5)
 shape = SubResource("RectangleShape2D_marfp")
 

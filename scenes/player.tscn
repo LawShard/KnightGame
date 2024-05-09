@@ -1,8 +1,10 @@
-[gd_scene load_steps=44 format=3 uid="uid://csop68yjg7pq0"]
+[gd_scene load_steps=47 format=3 uid="uid://csop68yjg7pq0"]
 
 [ext_resource type="Texture2D" uid="uid://cdcegu3eco5hp" path="res://assets/sprites/knight.png" id="1_fuyio"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_p02x7"]
 [ext_resource type="Texture2D" uid="uid://bfi8x8dxdasn" path="res://assets/sprites/Sword 2.0.png" id="3_562kk"]
+[ext_resource type="PackedScene" uid="uid://dt2qau5eacgia" path="res://scenes/killzone.tscn" id="4_53a2f"]
+[ext_resource type="AudioStream" uid="uid://0u7k32q5fuwh" path="res://assets/sounds/jump.wav" id="5_kg0yw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j3jcc"]
 atlas = ExtResource("1_fuyio")
@@ -282,7 +284,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o7mwu")
 }],
-"loop": true,
+"loop": false,
 "name": &"Shinning",
 "speed": 25.0
 }]
@@ -294,12 +296,18 @@ height = 24.0416
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjlfg"]
 radius = 6.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t74wx"]
+size = Vector2(9, 13)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
 script = ExtResource("1_p02x7")
 
-[node name="PlayerAnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Marker2D" type="Marker2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="PlayerAnimatedSprite2D" type="AnimatedSprite2D" parent="Marker2D"]
 position = Vector2(1, -12)
 sprite_frames = SubResource("SpriteFrames_5mn6i")
 animation = &"idle"
@@ -307,16 +315,23 @@ autoplay = "idle"
 frame = 3
 frame_progress = 0.629377
 
-[node name="Sword" type="Area2D" parent="PlayerAnimatedSprite2D"]
-position = Vector2(11, 3)
+[node name="Sword" type="Area2D" parent="Marker2D/PlayerAnimatedSprite2D"]
+position = Vector2(6, 8)
 
-[node name="SwordAnimatedSprite2D" type="AnimatedSprite2D" parent="PlayerAnimatedSprite2D/Sword"]
-position = Vector2(9, -7)
+[node name="SwordAnimatedSprite2D" type="AnimatedSprite2D" parent="Marker2D/PlayerAnimatedSprite2D/Sword"]
+position = Vector2(14, -12)
 sprite_frames = SubResource("SpriteFrames_2qunr")
-animation = &"Idle"
+animation = &"Shinning"
+frame = 13
+frame_progress = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerAnimatedSprite2D/Sword"]
-position = Vector2(10, -10)
+[node name="SwordTimer" type="Timer" parent="Marker2D/PlayerAnimatedSprite2D/Sword"]
+wait_time = 2.0
+
+[node name="Killzone" parent="Marker2D/PlayerAnimatedSprite2D/Sword" instance=ExtResource("4_53a2f")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Marker2D/PlayerAnimatedSprite2D/Sword/Killzone"]
+position = Vector2(14, -14)
 rotation = 0.785398
 shape = SubResource("CapsuleShape2D_3x2oy")
 
@@ -328,4 +343,24 @@ shape = SubResource("CircleShape2D_jjlfg")
 wait_time = 2.0
 one_shot = true
 
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="FormaColision" type="CollisionShape2D" parent="Hitbox"]
+visibility_layer = 2
+position = Vector2(1.5, -6.5)
+shape = SubResource("RectangleShape2D_t74wx")
+
+[node name="Sonidos" type="Node" parent="."]
+
+[node name="JumpAudio" type="AudioStreamPlayer2D" parent="Sonidos"]
+stream = ExtResource("5_kg0yw")
+pitch_scale = 0.88
+bus = &"Jump"
+
+[connection signal="animation_finished" from="Marker2D/PlayerAnimatedSprite2D/Sword/SwordAnimatedSprite2D" to="." method="_on_sword_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="Marker2D/PlayerAnimatedSprite2D/Sword/SwordTimer" to="." method="_on_sword_timer_timeout"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="area_shape_entered" from="Hitbox" to="." method="_on_hitbox_area_shape_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

@@ -1,0 +1,144 @@
+[gd_scene load_steps=20 format=3 uid="uid://dgd6dtvmavmgo"]
+
+[ext_resource type="Script" path="res://scripts/sword.gd" id="1_down7"]
+[ext_resource type="Texture2D" uid="uid://bfi8x8dxdasn" path="res://assets/sprites/Sword 2.0.png" id="1_f6kjh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob57u"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7laa7"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0uumx"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j00o3"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dib0"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmd00"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osure"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7mxe"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dl742"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kskt4"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_in775"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m06s4"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57h6c"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dym5u"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(416, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrehl"]
+atlas = ExtResource("1_f6kjh")
+region = Rect2(448, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_igv2u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob57u")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7laa7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0uumx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j00o3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dib0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmd00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osure")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l7mxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl742")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kskt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_in775")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m06s4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57h6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dym5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrehl")
+}],
+"loop": true,
+"name": &"Shinning",
+"speed": 25.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_liawv"]
+radius = 4.94975
+height = 25.4558
+
+[node name="Sword" type="Area2D"]
+script = ExtResource("1_down7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(14, -12)
+sprite_frames = SubResource("SpriteFrames_igv2u")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(14, -14)
+rotation = 0.785398
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_liawv")
+
+[node name="ShinningTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ShinningTimer" to="." method="_on_shinning_timer_timeout"]

@@ -1,6 +1,9 @@
 extends CharacterBody2D
-@onready var animated_sprite_2d = $AnimatedSprite2D
+@onready var player_animated_sprite_2d = $PlayerAnimatedSprite2D
+@onready var sword_animated_sprite_2d = $PlayerAnimatedSprite2D/Sword/SwordAnimatedSprite2D
 @onready var coyote_timer = $CoyoteTimer
+@onready var sword = $PlayerAnimatedSprite2D/Sword
+
 
 var coyote_time = 0.3
 var can_jump = false
@@ -10,7 +13,9 @@ const JUMP_VELOCITY = -300.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
+func _ready():
+	sword_animated_sprite_2d.rotation = 0
+	
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -31,18 +36,20 @@ func _physics_process(delta):
 	
 	#Cambiar Sprite
 	if direction > 0:
-		animated_sprite_2d.flip_h = false
+		player_animated_sprite_2d.flip_h = false
+		sword_animated_sprite_2d.rotation = 0
 	elif direction < 0:
-		animated_sprite_2d.flip_h = true
-		
+		player_animated_sprite_2d.flip_h = true
+		sword_animated_sprite_2d.rotation *= -1
+
 	#Animaciones
 	if is_on_floor():
 		if direction == 0:
-			animated_sprite_2d.play("idle")
+			player_animated_sprite_2d.play("idle")
 		else :
-			animated_sprite_2d.play("run")
+			player_animated_sprite_2d.play("run")
 	else:
-		animated_sprite_2d.play("jump")
+		player_animated_sprite_2d.play("jump")
 
 
 	#Aplicar Movimiento

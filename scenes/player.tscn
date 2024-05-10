@@ -1,10 +1,11 @@
-[gd_scene load_steps=47 format=3 uid="uid://csop68yjg7pq0"]
+[gd_scene load_steps=51 format=3 uid="uid://csop68yjg7pq0"]
 
 [ext_resource type="Texture2D" uid="uid://cdcegu3eco5hp" path="res://assets/sprites/knight.png" id="1_fuyio"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_p02x7"]
 [ext_resource type="Texture2D" uid="uid://bfi8x8dxdasn" path="res://assets/sprites/Sword 2.0.png" id="3_562kk"]
 [ext_resource type="PackedScene" uid="uid://dt2qau5eacgia" path="res://scenes/killzone.tscn" id="4_53a2f"]
 [ext_resource type="AudioStream" uid="uid://0u7k32q5fuwh" path="res://assets/sounds/jump.wav" id="5_kg0yw"]
+[ext_resource type="AudioStream" uid="uid://c7ktswn3b42u1" path="res://assets/sounds/Bonk.wav" id="6_5e4ss"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j3jcc"]
 atlas = ExtResource("1_fuyio")
@@ -293,6 +294,43 @@ animations = [{
 radius = 4.24264
 height = 24.0416
 
+[sub_resource type="Animation" id="Animation_yllxq"]
+resource_name = "Attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.69471, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_33mul"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yy22f"]
+_data = {
+"Attack": SubResource("Animation_yllxq"),
+"RESET": SubResource("Animation_33mul")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjlfg"]
 radius = 6.0
 
@@ -335,6 +373,11 @@ position = Vector2(14, -14)
 rotation = 0.785398
 shape = SubResource("CapsuleShape2D_3x2oy")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Marker2D/PlayerAnimatedSprite2D/Sword"]
+libraries = {
+"": SubResource("AnimationLibrary_yy22f")
+}
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_jjlfg")
@@ -359,8 +402,12 @@ stream = ExtResource("5_kg0yw")
 pitch_scale = 0.88
 bus = &"Jump"
 
+[node name="BonkSound" type="AudioStreamPlayer2D" parent="Sonidos"]
+stream = ExtResource("6_5e4ss")
+
 [connection signal="animation_finished" from="Marker2D/PlayerAnimatedSprite2D/Sword/SwordAnimatedSprite2D" to="." method="_on_sword_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="Marker2D/PlayerAnimatedSprite2D/Sword/SwordTimer" to="." method="_on_sword_timer_timeout"]
+[connection signal="animation_finished" from="Marker2D/PlayerAnimatedSprite2D/Sword/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="area_shape_entered" from="Hitbox" to="." method="_on_hitbox_area_shape_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

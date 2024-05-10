@@ -495,7 +495,7 @@ position_smoothing_speed = 6.0
 position = Vector2(91, 281)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
-position = Vector2(242, -90)
+position = Vector2(237, -18)
 shape = SubResource("WorldBoundaryShape2D_plsai")
 
 [node name="Coins" type="Node" parent="."]

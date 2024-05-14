@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 const SPEED = 90
 
 var direction = 1
@@ -17,3 +17,7 @@ func _process(delta):
 		animated_sprite.flip_h = false
 		
 	position.x += direction * SPEED * delta
+
+func take_damage():
+	queue_free()
+

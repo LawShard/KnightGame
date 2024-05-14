@@ -1,13 +1,12 @@
 extends CharacterBody2D
-@onready var player_animated_sprite_2d = $Marker2D/PlayerAnimatedSprite2D
-@onready var sword = $Marker2D/PlayerAnimatedSprite2D/Sword
-@onready var sword_timer = $Marker2D/PlayerAnimatedSprite2D/Sword/SwordTimer
+@onready var player_animated_sprite_2d = $PlayerAnimatedSprite2D
+@onready var sword = $PlayerAnimatedSprite2D/Sword
+@onready var sword_timer = $PlayerAnimatedSprite2D/Sword/SwordTimer
 @onready var coyote_timer = $CoyoteTimer
-@onready var sword_animated_sprite_2d = $Marker2D/PlayerAnimatedSprite2D/Sword/SwordAnimatedSprite2D
-@onready var marker_2d = $Marker2D
+@onready var sword_animated_sprite_2d = $PlayerAnimatedSprite2D/Sword/SwordAnimatedSprite2D
 @onready var colisionEnemigo = $Killzone/CollisionShape2D
 @onready var jump_audio = $Sonidos/JumpAudio
-@onready var animation_player = $Marker2D/PlayerAnimatedSprite2D/Sword/AnimationPlayer
+@onready var animation_player = $PlayerAnimatedSprite2D/Sword/AnimationPlayer
 @onready var bonk_sound = $Sonidos/BonkSound
 
 var can_attack = true
@@ -49,13 +48,12 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("Attack") and can_attack:
 		can_attack = false
 		sword_attack()
-		
 
 	#Cambiar Sprite
 	if direction > 0:
-		marker_2d.scale.x = 1
+		player_animated_sprite_2d.scale.x = 1
 	elif direction < 0:
-		marker_2d.scale.x =- 1
+		player_animated_sprite_2d.scale.x =- 1
 
 	#Animaciones
 	if is_on_floor():
@@ -94,3 +92,22 @@ func sword_attack():
 
 func _on_animation_player_animation_finished(Attack):
 	can_attack = true
+
+
+func on_sword_body_entered(body):
+	print("Funcion Correcta")
+	if body.is_in_group("hit"):
+		print("Golpe")
+		body.take_damage()
+	else:
+		print("NotGolpe")
+
+
+
+func _on_sword_area_entered(area):
+	print("Funcion Correcta")
+	if area.is_in_group("hit"):
+		print("Golpe")
+		area.take_damage()
+	else:
+		print("NotGolpe")

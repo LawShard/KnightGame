@@ -48,7 +48,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_marfp"]
 size = Vector2(10, 11)
 
-[node name="Green_Slime" type="Node2D"]
+[node name="Green_Slime" type="CharacterBody2D" groups=["hit"]]
+collision_mask = 8
 script = ExtResource("1_binbv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -60,7 +61,7 @@ frame_progress = 0.533631
 [node name="Killzone" parent="." instance=ExtResource("2_cbjxv")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
-visibility_layer = 4
+visibility_layer = 8
 position = Vector2(0, 6.5)
 shape = SubResource("RectangleShape2D_marfp")
 
